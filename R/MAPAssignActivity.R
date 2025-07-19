@@ -337,56 +337,6 @@ DropLowMutationSamples <- function(spectra) {
   }
 }
 
-#' Plot List of catalogs to Pdf
-#'
-#' @param list.of.catalogs List of catalogs in \code{\link[ICAMS]{ICAMS}} format.
-#'
-#' @inheritParams ICAMS::PlotCatalogToPdf
-#'
-#' @keywords internal
-PlotListOfCatalogsToPdf <- function(list.of.catalogs,
-                                    file,
-                                    plot.SBS12 = FALSE,
-                                    cex     = 0.8,
-                                    grid    = TRUE,
-                                    upper   = TRUE,
-                                    xlabels = TRUE,
-                                    ylim    = NULL) {
-  old.par.tck.value <- graphics::par("tck")
-  # Setting the width and length for A4 size plotting
-  grDevices::pdf(file, width = 8.2677, height = 11.6929, onefile = TRUE)
-  graphics::par(tck = old.par.tck.value)
-
-  num.of.catalogs <- length(list.of.catalogs)
-  if (nrow(list.of.catalogs[[1]]) == 96) {
-    opar <- graphics::par(mfrow = c(8, 1), mar = c(4, 5.5, 2, 1), oma = c(1, 1, 2, 1))
-  } else if (nrow(list.of.catalogs[[1]]) == 192) {
-    opar <- graphics::par(mfrow = c(8, 1), mar = c(2, 4, 2, 2), oma = c(3, 2, 1, 1))
-  } else if (nrow(list.of.catalogs[[1]]) == 78) {
-    opar <- graphics::par(mfrow = c(8, 1), mar = c(2, 4, 2, 2), oma = c(3, 3, 2, 2))
-  } else if (nrow(list.of.catalogs[[1]]) == 83) {
-    opar <- graphics::par(mfrow = c(8, 1), mar = c(3, 4, 2.5, 2), oma = c(3, 3, 2, 2))
-  } 
-
-  if (exists("opar")) {
-    on.exit(graphics::par(opar))
-  }
-
-  for (i in 1:num.of.catalogs) {
-    catalog <- list.of.catalogs[[i]]
-    num.of.samples <- ncol(catalog)
-
-    for (j in 1:num.of.samples) {
-      cat <- catalog[, j, drop = FALSE]
-      ICAMS::PlotCatalog(cat, plot.SBS12 = plot.SBS12, cex = cex, grid = grid,
-                         upper = upper, xlabels = xlabels, ylim = ylim)
-    }
-
-  }
-
-  grDevices::dev.off()
-  invisible(list(plot.success = TRUE))
-}
 
 #' Get the numerical parts of identifiers.
 #'

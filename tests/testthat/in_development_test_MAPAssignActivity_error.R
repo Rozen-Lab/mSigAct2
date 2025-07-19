@@ -1,12 +1,11 @@
 test_that("MAPAssignActivity for ID Catalog with errors -- not finished", {
   skip_if_not(Sys.getenv("MSIGACT_TEST_LENGTH") == "long")
   
-  catalog <- ICAMS::ReadCatalog(file = "testdata/PCAWG7-Prost-AdenoCA-ten-samples.csv")
+  catalog <- as.matrix(read.csv(file = "testdata/PCAWG7-Prost-AdenoCA-ten-samples.csv", row.names = 1, check.names = FALSE))
   sample.index <- 1:2
   catID <- catalog[, sample.index, drop = FALSE]
   catID[ , 1] <- 0 # Try setting counts to 0 for 1 sample
-  ID.sigs <- ICAMS::ReadCatalog(file = "testdata/COSMIC-v3-genome-ID-sigs.csv",
-                                catalog.type = "counts.signature")
+  ID.sigs <- as.matrix(read.csv(file = "testdata/COSMIC-v3-genome-ID-sigs.csv", row.names = 1, check.names = FALSE))
   mutation.type <- "ID"
   cancer.type <- "Prost-AdenoCA"
   sigs.prop <- ExposureProportions(mutation.type = mutation.type,

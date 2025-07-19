@@ -109,7 +109,7 @@ TestSignaturePresenceTest1 <-
 
   spectrum <- round(some.sigs %*% sig.counts)
   spectrum <-
-    ICAMS::as.catalog(
+    as.catalog(
       object       = spectrum,
       ref.genome   = ref.genome,
       region       = region,

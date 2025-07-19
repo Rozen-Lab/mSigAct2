@@ -315,11 +315,8 @@ OneMAPAssignTest <- function(spect,
   colnames(sol.matrix) <- paste(colnames(sol.matrix), round(cos.sim[1, ], digits = 4))
   colnames(sol.matrix)[1] <- colnames(spect)
   if (!is.null(out.dir)) {
-    tmp.catalog <- ICAMS::as.catalog(round(sol.matrix))
-    ICAMS::PlotCatalogToPdf(
-      tmp.catalog,
-      file = file.path(out.dir, "reconstructions.pdf"))
-    ICAMS::WriteCatalog(tmp.catalog,
+    tmp.catalog <- as.catalog(round(sol.matrix))
+    write.csv2(tmp.catalog,
                         file = file.path(out.dir, "reconstructions.csv" ))
 
   }

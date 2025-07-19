@@ -85,7 +85,7 @@ RunMAPOnOneSample <-
                                paste0(spect.name, ".", mut.type, ".distances.csv")),
               row.names = TRUE)
     
-    ICAMS::WriteCatalog(catalog = ICAMS::as.catalog(spect),
+    WriteCatalog(catalog = as.catalog(spect),
                         file = file.path(output.path,
                                          paste0(spect.name, ".", mut.type,
                                                 ".catalog.csv")))

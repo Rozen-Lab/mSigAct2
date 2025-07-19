@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project Overview
 
-mSigAct (mutational **Sig**nature **Act**ivity) is an R package for analyzing the "activities" of mutational signatures in genomic spectra. It uses maximum likelihood approaches to:
+mSigAct2 (mutational **Sig**nature **Act**ivity 2) is the development version of an R package for analyzing the "activities" of mutational signatures in genomic spectra. It uses maximum likelihood approaches to:
 
 1. **Signature Presence Testing**: Conservatively estimate whether specific mutational signatures are present in a spectrum
 2. **Sparse Assignment**: Determine a minimal subset of signatures needed to plausibly reconstruct an observed spectrum  
@@ -71,13 +71,14 @@ Sys.setenv("MSIGACT_TEST_LENGTH" = "long")
 testthat::test_check("mSigAct")
 ```
 
-### GitHub Actions CI
-The package uses GitHub Actions for continuous integration with R CMD check on Windows. The workflow is defined in `.github/workflows/R-CMD-check.yaml`.
+### Continuous Integration
+The package uses both GitHub Actions and AppVeyor for continuous integration:
+- **GitHub Actions**: R CMD check on Windows (`.github/workflows/R-CMD-check.yaml`)
+- **AppVeyor**: Additional Windows testing with BiocInstaller dependencies (`appveyor.yml`)
 
 ## Dependencies and Installation
 
 ### Key Dependencies
-- **ICAMS** (>= 3.0.6): Mutational signature analysis tools
 - **mSigTools** (>= 1.0.8): Signature analysis utilities  
 - **PCAWG7** (>= 0.1.3): PCAWG7 data and utilities
 - **cosmicsig**: COSMIC signature definitions
@@ -85,11 +86,11 @@ The package uses GitHub Actions for continuous integration with R CMD check on W
 
 ### Installation from GitHub
 ```r
-# Stable version
-remotes::install_github(repo = "steverozen/mSigAct", ref = "v3.0.1-branch")
+# Development version (current working branch)
+remotes::install_github(repo = "steverozen/mSigAct2", ref = "v3.0.3-branch")
 
-# Development version  
-remotes::install_github(repo = "steverozen/mSigAct", ref = "master")
+# Install in development mode for local development
+devtools::install()
 ```
 
 ## Key Concepts
@@ -113,9 +114,21 @@ Functions support parallel processing via:
 ## File Structure Notes
 
 - **R/**: Main package source code
-- **data-raw/**: Development data, debugging scripts, and test cases
+- **data-raw/**: Development data, debugging scripts, and test cases for edge cases
 - **tests/testthat/**: Automated test suite
 - **inst/extdata/**: Package data files
 - **man/**: Generated documentation (do not edit manually)
 
-The extensive `data-raw/` directory contains debugging scripts and test cases for various edge cases and error conditions encountered during development.
+The extensive `data-raw/` directory contains debugging scripts and test cases for various edge cases and error conditions encountered during development, including:
+- **errors/**: Debugging scripts for specific error conditions
+- **loglh_two_model/**: Testing likelihood model comparisons
+- **fs_error/**: Forward search algorithm debugging
+- **multinomial/**: Multinomial likelihood testing
+
+## Development Notes
+
+### Current Branch Status
+This is a development repository. The current working branch is `v3.0.3-branch`. All code should be considered experimental and subject to change.
+
+### Debugging and Testing
+Many functions contain extensive debugging capabilities controlled by environment variables and tracing options. The `data-raw/` directory contains real-world test cases that have been problematic during development.

@@ -19,7 +19,7 @@ SparseAssignTest1 <- function(sig.counts,
 
   spect <- round(some.sigs %*% sig.counts)
   spect <-
-    ICAMS::as.catalog(
+    as.catalog(
       spect,
       ref.genome   = ref.genome,
       region       = region,

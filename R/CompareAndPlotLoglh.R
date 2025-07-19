@@ -68,9 +68,9 @@ CompareAndPlotLoglh <-
     test.sig.spectra <- sigs[, sig.to.test, drop = FALSE]
     list.of.catalogs <- list(to.plot, test.sig.spectra)
 
-    PlotListOfCatalogsToPdf(
-      list.of.catalogs = list.of.catalogs,
-      file = file
-    )
+    # PlotListOfCatalogsToPdf(
+    #  list.of.catalogs = list.of.catalogs,
+    #  file = file
+    # )
     invisible(TRUE)
   }

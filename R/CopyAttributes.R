@@ -4,14 +4,14 @@
 CopyAttributes <- function(from, to) {
   if (inherits(from, "catalog")) {
   new.catalog <- 
-    ICAMS::as.catalog(to,
+    as.catalog(to,
                       ref.genome     = attr(from, "ref.genome"),
                       region         = attr(from, "region"),
                       abundance      = attr(from, "abundance"),
                       catalog.type   = attr(from, "catalog.type"),
                       infer.rownames = TRUE)
   } else {
-    new.catalog <- ICAMS::as.catalog(to)
+    new.catalog <- as.catalog(to)
   }
   return(new.catalog)
 }

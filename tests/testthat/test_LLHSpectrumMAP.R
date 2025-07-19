@@ -1,10 +1,10 @@
 context("LLHSpectrumMAP")
 
 test_that("MAPAssignActivity for ID Catalog", {
-  catalog <- ICAMS::ReadCatalog(file = "testdata/PCAWG7-Prost-AdenoCA-ten-samples.csv")
+  catalog <- as.matrix(read.csv(file = "testdata/PCAWG7-Prost-AdenoCA-ten-samples.csv", row.names = 1, check.names = FALSE))
   sample.index <- 1
   catID <- catalog[, sample.index, drop = FALSE]
-  ID.sigs <- ICAMS::ReadCatalog(file = "testdata/COSMIC-v3-genome-ID-sigs.csv")
+  ID.sigs <- as.matrix(read.csv(file = "testdata/COSMIC-v3-genome-ID-sigs.csv", row.names = 1, check.names = FALSE))
   mutation.type <- "ID"
   cancer.type <- "Prost-AdenoCA"
   sigs.prop <- ExposureProportions(mutation.type = mutation.type,

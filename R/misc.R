@@ -112,12 +112,12 @@ ClosestCosSig <- function(spectrum) {
 
 ClosestCosSigDensity <- function(spectrum) {
   spec <-
-    ICAMS::TransformCatalog(
+    TransformCatalog(
       spectrum,
       target.catalog.type = "density")
 
   sigs <-
-    ICAMS::TransformCatalog(
+    TransformCatalog(
       cosmicsig::COSMIC_v3.2$signature$GRCh37$SBS96,
       target.catalog.type = "density.signature")
 
