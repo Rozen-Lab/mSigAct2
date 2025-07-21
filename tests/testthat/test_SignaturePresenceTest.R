@@ -40,7 +40,8 @@ test_that("Test all signatures in one spectrum", {
   my.opts <- DefaultManyOpts(likelihood.dist = "multinom")
   test.out <- TestAllSigs(spectrum = spectra, sigs = sigs.to.test, 
                           m.opts = my.opts,
-                          seed = 2892, mc.cores = 30)
+                          seed = 2892, mc.cores = 1)
+  # This test currently fails with mc.cores = 1; previously it was 30
   expect_equal(test.out[1], 3.313776e-05, check.attributes = FALSE)
 })
 

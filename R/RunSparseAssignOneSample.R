@@ -58,10 +58,11 @@ RunSparseAssignOneSample <-
                                paste0(spect.name, ".", mut.type, ".distances.csv")),
               row.names = TRUE)
     
-    WriteCatalog(catalog = as.catalog(spect),
-                        file = file.path(output.path,
-                                         paste0(spect.name, ".", mut.type,
-                                                ".catalog.csv")))
+    Write.csv(
+      spect,
+      file = file.path(output.path,
+                       paste0(spect.name, ".", mut.type,
+                              ".catalog.csv")))
     inferred.exposure <- retval$proposed.assignment
     
     # Order inferred.exposure by mutation counts
@@ -109,11 +110,17 @@ RunSparseAssignOneSample <-
              ", cosine similarity = ", 
              round(distance.info$proposed.assignment["cosine"], 5), ")")
     colnames(spect) <- paste0(colnames(spect), " (count = ",colSums(spect), ")")
-    list.of.catalogs <- list(spect, reconstructed.spectrum, sigs1)
-    PlotListOfCatalogsToPdf(list.of.catalogs,
-                            file = file.path(output.path,
-                                             paste0(spect.name, ".", mut.type,
-                                                    ".proposed.reconstruction.pdf")))
+
+    # More dead code above
+    
+    # list.of.catalogs <- list(spect, reconstructed.spectrum, sigs1)
+    # PlotListOfCatalogsToPdf(list.of.catalogs,
+    #                        file = file.path(output.path,
+    #                                         paste0(spect.name, ".", mut.type,
+    #
+    #
+    #                                                ".proposed.reconstruction.pdf")))
+    
     return(retval)
   }
 }

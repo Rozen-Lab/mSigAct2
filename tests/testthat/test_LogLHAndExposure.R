@@ -18,12 +18,6 @@ PrepOneSynSpectrum <- function(sig.counts,
   }
 
   spectrum <- round(some.sigs %*% sig.counts)
-  spectrum <-
-    as.catalog(
-      object       = spectrum,
-      ref.genome   = ref.genome,
-      region       = region,
-      catalog.type = "counts")
 
   return(list(sigs = some.sigs, spec = spectrum))
 }
@@ -47,7 +41,7 @@ TestOneLLHetc <- function(sig.counts,
     m.opts      = m.opts)
 
   new.rec <-
-    mSigAct:::prop.reconstruct(exp = retval$exposure, sigs = test.data$sigs)
+    mSigAct2:::prop.reconstruct(exp = retval$exposure, sigs = test.data$sigs)
 
   xx <- rbind(test.data$spec[ ,1], round(new.rec)[, 1])
   edist <- stats::dist(xx, method = "euclidean")

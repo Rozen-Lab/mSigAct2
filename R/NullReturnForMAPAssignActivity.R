@@ -19,9 +19,9 @@ NullReturnForMAPAssignActivity <-
     null.spect       <- matrix(rep(0, nrow(signature.universe)))
     colnames(null.spect) <- sample.name
     rownames(null.spect)  <- rownames(signature.universe)
-    if (!is.null(target.spectrum)) {
-      null.spect <- CopyAttributes(from = target.spectrum, to = null.spect)
-    }
+    # if (!is.null(target.spectrum)) {
+    #  null.spect <- CopyAttributes(from = target.spectrum, to = null.spect)
+    # }
     
     all.tested <- data.frame(
       sig.names        = "",

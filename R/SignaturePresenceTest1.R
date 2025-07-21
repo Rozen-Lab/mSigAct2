@@ -108,12 +108,6 @@ TestSignaturePresenceTest1 <-
   }
 
   spectrum <- round(some.sigs %*% sig.counts)
-  spectrum <-
-    as.catalog(
-      object       = spectrum,
-      ref.genome   = ref.genome,
-      region       = region,
-      catalog.type = "counts")
 
   if (is.null(m.opts)) {
     m.opts <- DefaultManyOpts()

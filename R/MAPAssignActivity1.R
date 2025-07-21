@@ -154,7 +154,7 @@ MAPAssignActivity1 <-
       
       MAP.recon <-
         ReconstructSpectrum(sigs, exp = best.exp, use.sig.names = TRUE)
-      MAP.recon <- CopyAttributes(from = spect, to = MAP.recon)
+      # MAP.recon <- CopyAttributes(from = spect, to = MAP.recon)
       
       if (!use.sparse.assign && !use.forward.search) {
         # Internally set max.presence.proportion to be 0.99 in case there will be -Inf
@@ -201,7 +201,7 @@ MAPAssignActivity1 <-
       colnames(MAP.recon) <- colnames(spect)
       
       # Add attributes to MAP.recon to be same as spect
-      MAP.recon <- CopyAttributes(to = MAP.recon, from = spect)
+      # MAP.recon <- CopyAttributes(to = MAP.recon, from = spect)
       
       if (use.forward.search) {
         all.tested <- NULL

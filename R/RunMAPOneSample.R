@@ -85,10 +85,11 @@ RunMAPOnOneSample <-
                                paste0(spect.name, ".", mut.type, ".distances.csv")),
               row.names = TRUE)
     
-    WriteCatalog(catalog = as.catalog(spect),
-                        file = file.path(output.path,
-                                         paste0(spect.name, ".", mut.type,
-                                                ".catalog.csv")))
+    utils::write.csv(
+      spect,
+      file = file.path(output.path,
+                       paste0(spect.name, ".", mut.type,
+                              ".catalog.csv")))
     inferred.exposure <- retval$proposed.assignment
     
     # Order inferred.exposure by mutation counts
@@ -126,22 +127,27 @@ RunMAPOnOneSample <-
                round(inferred.exposure[, 1]/sum(inferred.exposure[, 1]), 2), ")")
     }
     
-    reconstructed.spectrum <- retval$proposed.reconstruction
-    colnames(reconstructed.spectrum) <-
-      paste0("Reconstructed spectrum (count = ", round(colSums(reconstructed.spectrum)),
-             ", cosine similarity = ", 
-             round(distance.info$proposed.assignment["cosine"], 5), ")")
-    subtracted.spect <- spect - reconstructed.spectrum
-    colnames(subtracted.spect) <- 
-      paste0(colnames(spect), " (subtracted spectrum, absolute counts)")
+    # More dead code above
     
-    colnames(spect) <- paste0(colnames(spect), " (count = ",colSums(spect), ")")
+    # reconstructed.spectrum <- retval$proposed.reconstruction
+    # colnames(reconstructed.spectrum) <-
+    #  paste0("Reconstructed spectrum (count = ", round(colSums(reconstructed.spectrum)),
+    #         ", cosine similarity = ", 
+    #         round(distance.info$proposed.assignment["cosine"], 5), ")")
+
+    # subtracted.spect <- spect - reconstructed.spectrum
+    # colnames(subtracted.spect) <- 
+    #  paste0(colnames(spect), " (subtracted spectrum, absolute counts)")
     
-    list.of.catalogs <- list(spect, reconstructed.spectrum, subtracted.spect,
-                             sigs1)
-    PlotListOfCatalogsToPdf(list.of.catalogs,
-                            file = file.path(output.path,
-                                             paste0(spect.name, ".", mut.type,
-                                                    ".proposed.reconstruction.pdf")))
+    # colnames(spect) <- paste0(colnames(spect), " (count = ",colSums(spect), ")")
+    
+    # list.of.catalogs <- list(spect, reconstructed.spectrum, subtracted.spect,
+    #                         sigs1)
+    # PlotListOfCatalogsToPdf(list.of.catalogs,
+    #                        file = file.path(output.path,
+    #                                         paste0(spect.name, ".", mut.type,
+    #
+    #                                                ".proposed.reconstruction.pdf")))
+
     return(retval)
   }

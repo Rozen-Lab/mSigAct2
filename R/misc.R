@@ -110,27 +110,6 @@ ClosestCosSig <- function(spectrum) {
 }
 
 
-ClosestCosSigDensity <- function(spectrum) {
-  spec <-
-    TransformCatalog(
-      spectrum,
-      target.catalog.type = "density")
-
-  sigs <-
-    TransformCatalog(
-      cosmicsig::COSMIC_v3.2$signature$GRCh37$SBS96,
-      target.catalog.type = "density.signature")
-
-  cos <-
-    apply(sigs,
-          MARGIN = 2,
-          FUN =
-            function(sig) {
-              cossim(as.vector(sig), as.vector(spec))})
-  max.cos <- which(cos == max(cos))
-  return(cos[max.cos])
-
-}
 
 # Used from the console line during testing / debugging
 LoadToEnvironment <- function(RData, env = new.env()){

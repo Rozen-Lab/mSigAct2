@@ -151,6 +151,7 @@ OneMAPAssignTest <- function(spect,
                              p.thresh,
                              sigs.prop    = NULL,
                              sigs         = NULL) {
+  
   if (!is.null(out.dir)) {
     if (!dir.exists(out.dir)) {
       created <- dir.create(out.dir, recursive = TRUE)
@@ -315,10 +316,9 @@ OneMAPAssignTest <- function(spect,
   colnames(sol.matrix) <- paste(colnames(sol.matrix), round(cos.sim[1, ], digits = 4))
   colnames(sol.matrix)[1] <- colnames(spect)
   if (!is.null(out.dir)) {
-    tmp.catalog <- as.catalog(round(sol.matrix))
-    write.csv2(tmp.catalog,
-                        file = file.path(out.dir, "reconstructions.csv" ))
-
+    utils::write.csv(
+      round(sol.matrix),
+      file = file.path(out.dir, "reconstructions.csv" ))
   }
 
   print(MAPout$MAP.distances)

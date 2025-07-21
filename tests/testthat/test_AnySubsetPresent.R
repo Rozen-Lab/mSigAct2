@@ -34,7 +34,7 @@ TestSignaturePresenceTestDouble <- function(extra.sig, eso.indices) {
   
   sigs.plus <- TestEsoSigs(extra.sig)
   set.seed(101010, kind = "L'Ecuyer-CMRG")
-  retval1 <- mSigAct::SignaturePresenceTest(
+  retval1 <- mSigAct2::SignaturePresenceTest(
     spectra          = eso.spectra,
     sigs             = sigs.plus,
     target.sig.index = 1,

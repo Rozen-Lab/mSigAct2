@@ -1,4 +1,4 @@
 library(testthat)
-library(mSigAct)
+library(mSigAct2)
 
-test_check("mSigAct")
+test_check("mSigAct2")

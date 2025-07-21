@@ -1,10 +1,12 @@
 test_that("MAPAssignActivity for ID Catalog", {
   skip_if_not(Sys.getenv("MSIGACT_TEST_LENGTH") == "long")
   
-  catalog <- as.matrix(read.csv(file = "testdata/PCAWG7-Prost-AdenoCA-ten-samples.csv", row.names = 1, check.names = FALSE))
+  catalog <- mSigAct2:::read_indel_csv(
+    file = "testdata/PCAWG7-Prost-AdenoCA-ten-samples.csv")
   sample.index <- 1
   catID <- catalog[, sample.index, drop = FALSE]
-  ID.sigs <- as.matrix(read.csv(file = "testdata/COSMIC-v3-genome-ID-sigs.csv", row.names = 1, check.names = FALSE))
+  ID.sigs <- mSigAct2:::read_indel_csv(
+    file = "testdata/COSMIC-v3-genome-ID-sigs.csv")
   mutation.type <- "ID"
   cancer.type <- "Prost-AdenoCA"
   sigs.prop <- ExposureProportions(mutation.type = mutation.type,

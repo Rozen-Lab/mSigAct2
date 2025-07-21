@@ -34,6 +34,6 @@ test_that("Edge case when spectrum have very low mutation counts", {
     seed                    = 2351,
     drop.low.mut.samples    = FALSE
   )
-
+  # error on windows due to mc cores > 1
   expect_true(all(retval1$error.messages == ""))
 })
