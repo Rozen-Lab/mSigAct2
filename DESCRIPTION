@@ -1,5 +1,5 @@
 Package: mSigAct2
-Title: Mutational Signature Activity Analysis ('mSigAct')
+Title: Mutational Signature Activity Analysis 2 ('mSigAct2')
 Version: 1.0.0
 Author: Steve Rozen, Alvin Wei Tian Ng, Arnoud Boot, Nanhai Jiang 
 Maintainer: Steve Rozen <steverozen@gmail.com>
@@ -7,7 +7,9 @@ Description: Analyze the "activities" of mutational signatures in one or more mu
     'mSigAct' stands for mutational Signature Activity. mSigAct uses a maximum likelihood approach
     to estimate (conservatively) whether there is evidence that a particular set of mutational 
     signatures is present in a spectrum. It can also determine a *minimal* subset of signatures 
-    needed to plausibly reconstruct an observed spectrum. 
+    needed to plausibly reconstruct an observed spectrum. This fork of
+    mSigAct2 removes dependencies on ICAMS; these dependencies interferred
+    with analysizing data that used new mutation classification schemes.
 License: GPL-3
 URL: https://github.com/steverozen/mSigAct
 BugReports: https://github.com/steverozen/mSigAct/issues
