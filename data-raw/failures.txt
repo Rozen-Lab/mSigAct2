@@ -1,11 +1,9 @@
-#1
+Sys.setenv(MSIGACT_TEST_LENGTH = "long")
 
-Failure (test_edge_case_vlow_mutation.R:38:3): Edge case when spectrum have very low mutation counts
-all(retval1$error.messages == "") is not TRUE
-
-`actual`:   FALSE
-`expected`: TRUE 
-
+to do: fix line 137 in MAPAssignActivity.R
+(    retval <- parallel::mclapply(1:ncol(spectra),
+                                 f1,
+                                 mc.cores = num.parallel.samples))
 #2 
 
 Failure (test_ForwardSearch.R:31:3): Use forward search for MAPAssignActivity
