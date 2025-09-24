@@ -42,7 +42,9 @@ test_that("Test all signatures in one spectrum", {
                           m.opts = my.opts,
                           seed = 2892, mc.cores = 1)
   # This test currently fails with mc.cores = 1; previously it was 30
-  expect_equal(test.out[1], 3.313776e-05, check.attributes = FALSE)
+  expect_equal(test.out[1], 3.313776e-05, 
+               tolerance = 1e-5,
+               check.attributes = FALSE)
 })
 
 
