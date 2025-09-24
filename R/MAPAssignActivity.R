@@ -87,8 +87,8 @@ MAPAssignActivity <-
            max.level                  = 5,
            p.thresh                   = 0.05,
            m.opts                     = DefaultManyOpts(),
-           num.parallel.samples       = 5,
-           mc.cores.per.sample        = min(20, 2^max.level),
+           num.parallel.samples       = Adj.mc.cores(5),
+           mc.cores.per.sample        = Adj.mc.cores(min(20, 2^max.level)),
            progress.monitor           = NULL,
            seed                       = NULL,
            max.subsets                = 1000,
@@ -103,7 +103,6 @@ MAPAssignActivity <-
     rownames(null.assignment1) <- colnames(sigs)
     null.spect1       <- matrix(rep(0, nrow(sigs)))
     colnames(null.spect1) <- "No samples"
-    mc.cores.per.sample = Adj.mc.cores(mc.cores.per.sample)
     
     if (ncol(spectra) == 0) {
       return(NullReturnForMAPAssignActivity(signature.universe = sigs, 
@@ -133,11 +132,10 @@ MAPAssignActivity <-
       return(retval1)
     }
 
-    num.parallel.samples <- Adj.mc.cores(num.parallel.samples)
-
     retval <- parallel::mclapply(1:ncol(spectra),
                                  f1,
-                                 mc.cores = num.parallel.samples)
+                                 mc.cores = 
+                                  Adj.mc.cores(num.parallel.samples))
     
     # retval is a list with each element a value returned from
     # RunMAPOnOneSample. Each element is a list with a proposed.assignment and a

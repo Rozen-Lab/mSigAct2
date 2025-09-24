@@ -335,7 +335,7 @@ MAPAssignActivityInternal <-
            max.level                  = 5,
            p.thresh                   = 0.05,
            m.opts                     = DefaultManyOpts(),
-           max.mc.cores               = min(20, 2^max.level),
+           max.mc.cores               = Adj.mc.cores(min(20, 2^max.level)),
            max.subsets                = 1000,
            max.presence.proportion    = 0.99,
            progress.monitor           = NULL,
@@ -350,8 +350,6 @@ MAPAssignActivityInternal <-
     if (missing(sigs)) stop("MAPAssignActivityInternal: sigs is NULL")
     
     if (!is.null(seed)) set.seed(seed, kind = "L'Ecuyer-CMRG")
-    
-    max.mc.cores = Adj.mc.cores(max.mc.cores)
     
     if (use.forward.search) {
       msg <- "PresenceAttributeSigActivity1: "
