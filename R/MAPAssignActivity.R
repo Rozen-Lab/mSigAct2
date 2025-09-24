@@ -103,6 +103,7 @@ MAPAssignActivity <-
     rownames(null.assignment1) <- colnames(sigs)
     null.spect1       <- matrix(rep(0, nrow(sigs)))
     colnames(null.spect1) <- "No samples"
+    mc.cores.per.sample = Adj.mc.cores(mc.cores.per.sample)
     
     if (ncol(spectra) == 0) {
       return(NullReturnForMAPAssignActivity(signature.universe = sigs, 
