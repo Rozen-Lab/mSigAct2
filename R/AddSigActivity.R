@@ -1,6 +1,6 @@
 #' Add contributing signature activity information for one sample
 #'
-#' @details This function calls \code{\link{ReconstructSpectrum}}, 
+#' @details This function calls \code{\link{ReconstructSpectrum}},
 #'   \code{\link{LLHSpectrumNegBinom}} and \code{\link{LLHSpectrumMAP}}.
 #'
 #' @param spect A single spectrum.
@@ -21,11 +21,11 @@
 #' @param nbinom.size The dispersion parameter for the negative binomial
 #'   distribution; smaller is more dispersed. See
 #'   \code{\link[stats]{NegBinomial}}.
-#'   
+#'
 #' @param likelihood.dist The probability distribution used to calculate the
 #'   likelihood, can be either "multinom" (multinomial distribution) or
 #'   "neg.binom" (negative binomial distribution).
-#'   
+#'
 #' @param use.sparse.assign Whether to use sparse assignment. If \code{TRUE},
 #'   arguments designed for Maximum A Posteriori assignment such as
 #'   \code{sigs.presence.prop} will be ignored.
@@ -53,18 +53,30 @@
 #' @md
 #'
 #' @keywords internal
-AddSigActivity1 <- function(spect, exposure, sigs,
-                            sigs.presence.prop, nbinom.size = 5,
-                            likelihood.dist = "multinom",
-                            use.sparse.assign = FALSE) {
+AddSigActivity1 <- function(
+  spect,
+  exposure,
+  sigs,
+  sigs.presence.prop,
+  nbinom.size = 5,
+  likelihood.dist = "multinom",
+  use.sparse.assign = FALSE
+) {
   if (ncol(spect) != ncol(exposure)) {
-    stop("The number of samples in spectrum is not equal to the number of ",
-         "samples in exposure")
+    stop(
+      "The number of samples in spectrum is not equal to the number of ",
+      "samples in exposure"
+    )
   }
 
   if (colnames(spect) != colnames(exposure)) {
-    stop("The sample name in spectrum ", colnames(spect), " is not the same ",
-         "as the sample name in exposure ", colnames(exposure))
+    stop(
+      "The sample name in spectrum ",
+      colnames(spect),
+      " is not the same ",
+      "as the sample name in exposure ",
+      colnames(exposure)
+    )
   }
 
   attr(spect, "exposure") <- exposure
@@ -76,8 +88,11 @@ AddSigActivity1 <- function(spect, exposure, sigs,
 
   sigs.not.available <- setdiff(rownames(exposure), colnames(sigs))
   if (length(sigs.not.available) > 0) {
-    stop("Some signatures used in exposure is not available in the signatures ",
-         "provided ", paste(sigs.not.available, collapse = " "))
+    stop(
+      "Some signatures used in exposure is not available in the signatures ",
+      "provided ",
+      paste(sigs.not.available, collapse = " ")
+    )
   }
 
   # Sort exposure according to mutation counts
@@ -93,47 +108,71 @@ AddSigActivity1 <- function(spect, exposure, sigs,
     ets <- cosmicsig::get_etiology(mut.type, colnames(sigs1))
 
     colnames(sigs1) <-
-      paste0(colnames(sigs1), " (exposure = ", round(exposure[, 1]),
-             ", contribution = ",
-             round(exposure[, 1]/sum(exposure[, 1]), 2), ") ",
-             ets)
+      paste0(
+        colnames(sigs1),
+        " (exposure = ",
+        round(exposure[, 1]),
+        ", contribution = ",
+        round(exposure[, 1] / sum(exposure[, 1]), 2),
+        ") ",
+        ets
+      )
   } else {
     colnames(sigs1) <-
-      paste0(colnames(sigs1), " (exposure = ", round(exposure[, 1]),
-             ", contribution = ",
-             round(exposure[, 1]/sum(exposure[, 1]), 2), ")")
+      paste0(
+        colnames(sigs1),
+        " (exposure = ",
+        round(exposure[, 1]),
+        ", contribution = ",
+        round(exposure[, 1] / sum(exposure[, 1]), 2),
+        ")"
+      )
   }
 
   recon.spect <- ReconstructSpectrum(sigs = sigs1, exp = exposure)
   if (use.sparse.assign) {
     distances <-
-      DistanceMeasuresSparse(spect = spect, recon = recon.spect, 
-                             nbinom.size = nbinom.size,
-                             likelihood.dist = likelihood.dist)
+      DistanceMeasuresSparse(
+        spect = spect,
+        recon = recon.spect,
+        nbinom.size = nbinom.size,
+        likelihood.dist = likelihood.dist
+      )
   } else {
     distances <-
-      DistanceMeasures(spect = spect, recon = recon.spect, nbinom.size = nbinom.size,
-                       model = sigs.names, sigs.presence.prop = sigs.presence.prop,
-                       likelihood.dist = likelihood.dist)
+      DistanceMeasures(
+        spect = spect,
+        recon = recon.spect,
+        nbinom.size = nbinom.size,
+        model = sigs.names,
+        sigs.presence.prop = sigs.presence.prop,
+        likelihood.dist = likelihood.dist
+      )
   }
-  
+
   reconstructed.spectrum <- round(recon.spect)
 
   colnames(reconstructed.spectrum) <-
-    paste0("reconstructed (count = ", round(colSums(reconstructed.spectrum)),
-           ", cosine similarity = ",
-           round(distances$proposed.assignment["cosine"], 5), ")")
+    paste0(
+      "reconstructed (count = ",
+      round(colSums(reconstructed.spectrum)),
+      ", cosine similarity = ",
+      round(distances$proposed.assignment["cosine"], 5),
+      ")"
+    )
   subtracted.spect <- spect - reconstructed.spectrum
-  colnames(subtracted.spect) <- 
+  colnames(subtracted.spect) <-
     paste0(colnames(spect), " (subtracted spectrum, absolute counts)")
-  
-  colnames(spect) <- paste0(colnames(spect), " (count = ",colSums(spect), ")")
-  
-  sig.activity <- list(original.spect = spect,
-                       reconstructed.spect = reconstructed.spectrum,
-                       subtracted.spect = subtracted.spect,
-                       contributing.sigs = sigs1,
-                       distances = distances)
+
+  colnames(spect) <- paste0(colnames(spect), " (count = ", colSums(spect), ")")
+
+  sig.activity <- list(
+    original.spect = spect,
+    reconstructed.spect = reconstructed.spectrum,
+    subtracted.spect = subtracted.spect,
+    contributing.sigs = sigs1,
+    distances = distances
+  )
   return(sig.activity)
 }
 
@@ -147,9 +186,16 @@ RemoveZeroMutationSample <- function(spectra, exposure) {
     if (length(indices) > 0) {
       sample.names <- names(indices)
       spectra <- spectra[, !colnames(spectra) %in% sample.names, drop = FALSE]
-      exposure <- exposure[, !colnames(exposure) %in% sample.names, drop = FALSE]
-      warning("\nSome samples have zero mutations in ", to.check, "; dropping: ",
-              paste(sample.names, collapse = ", "))
+      exposure <- exposure[,
+        !colnames(exposure) %in% sample.names,
+        drop = FALSE
+      ]
+      warning(
+        "\nSome samples have zero mutations in ",
+        to.check,
+        "; dropping: ",
+        paste(sample.names, collapse = ", ")
+      )
     }
   }
   return(list(spectra = spectra, exposure = exposure))
@@ -157,7 +203,7 @@ RemoveZeroMutationSample <- function(spectra, exposure) {
 
 #' Add contributing signature activity information for multiple spectra
 #'
-#' @details This function calls \code{\link{ReconstructSpectrum}}, 
+#' @details This function calls \code{\link{ReconstructSpectrum}},
 #'   \code{\link{LLHSpectrumNegBinom}} and \code{\link{LLHSpectrumMAP}}.
 #'
 #' @param spectra The spectra (multiple spectra) to be reconstructed.
@@ -165,7 +211,7 @@ RemoveZeroMutationSample <- function(spectra, exposure) {
 #' @param sigs The signatures with which we are trying to reconstruct \code{spectra}.
 #' A numerical matrix, possibly an \code{\link[ICAMS]{ICAMS}} catalog. The column
 #' names of \code{sigs} should be a superset of row names of \code{exposure}.
-#' 
+#'
 #' @inheritParams AddSigActivity1
 #'
 #' @return A list of lists containing output for each sample in \code{spectra}.
@@ -204,40 +250,53 @@ RemoveZeroMutationSample <- function(spectra, exposure) {
 #' retval <- AddSigActivity(spectra, exposure, sigs, sigs.prop)
 #'}
 AddSigActivity <-
-  function(spectra, exposure, sigs, sigs.presence.prop, nbinom.size = 5,
-           likelihood.dist = "multinom", use.sparse.assign = FALSE) {
-  if (ncol(spectra) != ncol(exposure)) {
-    stop("The number of samples in spectrum is not equal to the number of ",
-         "samples in exposure")
-  }
-   
-  if (!setequal(colnames(spectra), colnames(exposure))) {
-    stop("The sample names in spectra are not the same as that in exposure")
-  }
-    
-  exposure <- exposure[, colnames(spectra), drop = FALSE]    
-  exposure[is.na(exposure)] <- 0  
-  
-  # Check whether there are some samples which have zero mutations
-  retval <- RemoveZeroMutationSample(spectra = spectra, exposure = exposure)
-  spectra <- retval[["spectra"]]
-  exposure <- retval[["exposure"]]
-  
-  if (ncol(spectra) == 0) {
-    message("All the samples have zero mutations")
-    return()
-  }
+  function(
+    spectra,
+    exposure,
+    sigs,
+    sigs.presence.prop,
+    nbinom.size = 5,
+    likelihood.dist = "multinom",
+    use.sparse.assign = FALSE
+  ) {
+    if (ncol(spectra) != ncol(exposure)) {
+      stop(
+        "The number of samples in spectrum is not equal to the number of ",
+        "samples in exposure"
+      )
+    }
 
-  ret <- lapply(1:ncol(spectra), FUN = function(x) {
-    spect <- spectra[, x, drop = FALSE]
-    expo <- exposure[, x, drop = FALSE]
-    out <- AddSigActivity1(spect = spect, exposure = expo, sigs = sigs,
-                           sigs.presence.prop = sigs.presence.prop,
-                           nbinom.size = nbinom.size,
-                           likelihood.dist = likelihood.dist,
-                           use.sparse.assign = use.sparse.assign)
-  })
+    if (!setequal(colnames(spectra), colnames(exposure))) {
+      stop("The sample names in spectra are not the same as that in exposure")
+    }
 
-  names(ret) <- colnames(spectra)
-  return(ret)
-}
+    exposure <- exposure[, colnames(spectra), drop = FALSE]
+    exposure[is.na(exposure)] <- 0
+
+    # Check whether there are some samples which have zero mutations
+    retval <- RemoveZeroMutationSample(spectra = spectra, exposure = exposure)
+    spectra <- retval[["spectra"]]
+    exposure <- retval[["exposure"]]
+
+    if (ncol(spectra) == 0) {
+      message("All the samples have zero mutations")
+      return()
+    }
+
+    ret <- lapply(1:ncol(spectra), FUN = function(x) {
+      spect <- spectra[, x, drop = FALSE]
+      expo <- exposure[, x, drop = FALSE]
+      out <- AddSigActivity1(
+        spect = spect,
+        exposure = expo,
+        sigs = sigs,
+        sigs.presence.prop = sigs.presence.prop,
+        nbinom.size = nbinom.size,
+        likelihood.dist = likelihood.dist,
+        use.sparse.assign = use.sparse.assign
+      )
+    })
+
+    names(ret) <- colnames(spectra)
+    return(ret)
+  }
